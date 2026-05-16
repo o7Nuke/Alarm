@@ -50,6 +50,8 @@
         .no-print { margin-top: 20px; display: flex; justify-content: flex-end; }
         button.print-btn { background: #2f855a; color: white; padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
+        .disclaimer-box { background: var(--warning-bg); color: var(--warning-text); padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85em; font-weight: bold; }
+
         @media print {
             .no-print, .tabs { display: none; }
             .container { box-shadow: none; border: none; padding: 0; width: 100%; max-width: 100%; }
@@ -76,7 +78,6 @@
     </div>
 
     <form id="calcForm">
-        <!-- TAB 1: DMP -->
         <div id="dmp" class="tab-content active">
             <div class="section-header">Alarm Monitoring Services (Annual)</div>
             <table class="item-table">
@@ -117,12 +118,11 @@
             <table class="item-table">
                 <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="30.00"></td><td>Cell Activation</td><td><input type="number" class="qty" value="1" min="1"></td><td>$30.00</td><td class="col-sub">$0.00</td></tr>
                 <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="75.00"></td><td>New Account Setup</td><td><input type="number" class="qty" value="1" min="1"></td><td>$75.00</td><td class="col-sub">$0.00</td></tr>
-                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>Initial DMP VK Setup</td><td>—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
-                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>VK Training</td><td>—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>Initial DMP VK Setup</td><td><input type="hidden" class="qty" value="1">—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>VK Training</td><td><input type="hidden" class="qty" value="1">—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
             </table>
         </div>
 
-        <!-- TAB 2: NON-DMP -->
         <div id="nondmp" class="tab-content">
             <div class="section-header">Alarm Monitoring Services (Annual)</div>
             <table class="item-table">
@@ -155,10 +155,7 @@
                 <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="165.00"><label>Weekly Test ($165)</label><input type="number" class="qty" value="1" min="1"></div>
                 <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="285.00"><label>Daily Test ($285)</label><input type="number" class="qty" value="1" min="1"></div>
                 <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="570.00"><label>Fire ($570)</label><input type="number" class="qty" value="1" min="1"></div>
-                <div class="cell-option" style="margin-left: 232px;">
-    <input type="checkbox" class="cb recurring" data-price="360.00">
-    <label>Multi-Carrier ($360)</label>
-    <input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;"><input type="checkbox" class="cb recurring" data-price="360.00"><label>Multi-Carrier ($360)</label><input type="number" class="qty" value="1" min="1"></div>
             </div>
             <div class="cell-group">
                 <div class="cell-brand">Wyless (Bosch)</div>
@@ -179,15 +176,9 @@
                 <div class="cell-brand">AlarmNet (Honeywell)</div>
                 <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="300.00"><label>5 Min. Check-In Superv. ($300)</label><input type="number" class="qty" value="1" min="1"></div>
                 <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="750.00"><label>GSM UL 2050 Sec. Superv. ($750)</label><input type="number" class="qty" value="1" min="1"></div>
-                <div class="cell-option" style="margin-left: 232px;">
-    <input type="checkbox" class="cb recurring" data-price="750.00">
-    <label>IPGSM-DP: 5 Min. Check-In GSM Only ($750)</label>
-    <input type="number" class="qty" value="1" min="1"></div>
-                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="330.00"><label>NFPA 2013 6HR Superv. GSM ($330)</label><input type="number" class="qty" value="1" min="1"></div>
-                <div class="cell-option" style="margin-left: 232px;">
-    <input type="checkbox" class="cb recurring" data-price="480.00">
-    <label>NFPA 2013 1HR Superv. GSM ($480)</label>
-    <input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;"><input type="checkbox" class="cb recurring" data-price="750.00"><label>IPGSM-DP: GSM Only ($750)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="330.00"><label>NFPA 2013 6HR GSM ($330)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;"><input type="checkbox" class="cb recurring" data-price="480.00"><label>NFPA 2013 1HR GSM ($480)</label><input type="number" class="qty" value="1" min="1"></div>
             </div>
 
             <div class="section-header">One-Time Fees</div>
@@ -203,7 +194,7 @@
         <div class="total-item"><label>One-Time Fees</label><div id="oneTimeTotal" class="total-val" style="color: #2d3748;">$0.00</div></div>
     </div>
 
-    <div class="no-print" style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; justify-content: space-between; align-items: flex-start;">
+    <div class="no-print" style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; align-items: flex-start;">
         <span style="font-size: 0.85em; color: #718096; line-height: 1.5; max-width: 60%;">
             <strong>NOTICE:</strong> This document provides a summary of estimated costs for informational purposes only. These rates are not a binding contract. Execution of a formal Alarm Monitoring Agreement is required prior to the commencement of services.
         </span>
@@ -216,16 +207,20 @@
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
-        evt.currentTarget.classList.add('active');
+        if(evt) evt.currentTarget.classList.add('active');
         document.getElementById('activeTitle').innerText = (tabName === 'dmp') ? 'DMP Panel' : 'Non-DMP Panel';
         calculate();
     }
 
-    document.getElementById('calcForm').addEventListener('input', calculate);
+    const form = document.getElementById('calcForm');
+    form.addEventListener('change', calculate);
+    form.addEventListener('input', calculate);
 
     function calculate() {
         let annual = 0, onetime = 0;
         const activeTab = document.querySelector('.tab-content.active');
+        if (!activeTab) return;
+        
         const allItems = activeTab.querySelectorAll('.item-row, .cell-option');
 
         allItems.forEach(item => {
@@ -234,18 +229,23 @@
             const subLabel = item.querySelector('.col-sub');
             
             if (cb && cb.checked) {
-                const price = parseFloat(cb.dataset.price);
+                const price = parseFloat(cb.dataset.price) || 0;
                 const qty = qtyInput ? parseInt(qtyInput.value) || 0 : 1;
                 const sub = price * qty;
                 if (subLabel) subLabel.innerText = '$' + sub.toLocaleString(undefined, {minimumFractionDigits: 2});
                 if (cb.classList.contains('recurring')) { annual += sub; } else { onetime += sub; }
-            } else { if (subLabel) subLabel.innerText = '$0.00'; }
+            } else { 
+                if (subLabel) subLabel.innerText = '$0.00'; 
+            }
         });
 
         document.getElementById('annualTotal').innerText = '$' + annual.toLocaleString(undefined, {minimumFractionDigits: 2});
         document.getElementById('oneTimeTotal').innerText = '$' + onetime.toLocaleString(undefined, {minimumFractionDigits: 2});
     }
-    calculate();
+    
+    window.onload = function() {
+        calculate();
+    };
 </script>
 
 </body>

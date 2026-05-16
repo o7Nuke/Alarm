@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Price Book - Annual</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #3182ce;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --warning-bg: #fff5f5;
+            --warning-text: #c53030;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #1a202c; padding: 20px; margin: 0; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .tab-btn { padding: 10px 25px; border: none; background: #edf2f7; cursor: pointer; border-radius: 6px; font-weight: bold; color: var(--secondary); transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+        .info-box { font-size: 0.85em; color: #718096; background: #f1f5f9; padding: 10px; border-radius: 6px; }
+
+        .section-header { background: var(--secondary); color: white; padding: 10px 15px; border-radius: 6px; margin: 20px 0 10px 0; font-size: 1.1em; }
+        
+        .cell-group { display: flex; flex-wrap: wrap; gap: 12px; padding: 15px 10px; border-bottom: 1px solid var(--border); align-items: center; }
+        .cell-brand { font-weight: bold; min-width: 220px; color: var(--primary); font-size: 0.95em; }
+        .cell-option { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 5px 10px; border-radius: 4px; border: 1px solid #e2e8f0; }
+        .cell-option label { font-size: 0.8em; font-weight: 600; }
+
+        input[type="checkbox"] { transform: scale(1.1); cursor: pointer; }
+        input[type="number"] { width: 45px; padding: 3px; border: 1px solid var(--border); border-radius: 4px; text-align: center; }
+
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        .item-table th { text-align: left; padding: 10px; border-bottom: 2px solid var(--border); font-size: 0.8em; color: #4a5568; text-transform: uppercase; }
+        .item-row { border-bottom: 1px solid var(--border); }
+        .item-row td { padding: 10px; vertical-align: middle; }
+
+        .totals-bar { margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 5px solid var(--primary); display: flex; justify-content: flex-end; gap: 40px; }
+        .total-item { text-align: right; }
+        .total-item label { display: block; font-size: 0.8em; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .total-val { font-size: 1.5em; font-weight: 800; color: var(--primary); }
+
+        .no-print { margin-top: 20px; display: flex; justify-content: flex-end; }
+        button.print-btn { background: #2f855a; color: white; padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+        @media print {
+            .no-print, .tabs { display: none; }
+            .container { box-shadow: none; border: none; padding: 0; width: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Alarm Monitoring Price Book - 2026</h1>
+            <div id="activeTitle" style="font-weight: bold; color: var(--accent);">DMP Panel</div>
+        </div>
+        <div class="info-box">
+            * Network communication included for all monitoring.<br>
+            * Elevator monitoring requires a phone line.
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(event, 'dmp')">DMP Panel</button>
+        <button class="tab-btn" onclick="switchTab(event, 'nondmp')">Non-DMP Panel</button>
+    </div>
+
+    <form id="calcForm">
+        <!-- TAB 1: DMP -->
+        <div id="dmp" class="tab-content active">
+            <div class="section-header">Alarm Monitoring Services (Annual)</div>
+            <table class="item-table">
+                <thead><tr><th>Select</th><th>Description</th><th>Qty</th><th>Annual Rate</th><th>Subtotal</th></tr></thead>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="637.50"></td><td>Burglar Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$637.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="787.50"></td><td>Combination Burg/Fire Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$787.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="877.50"></td><td>Fire Alarm Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$877.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="210.00"></td><td>Elevator Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$210.00</td><td class="col-sub">$0.00</td></tr>
+            </table>
+
+            <div class="section-header">DMP Cellular Communications (Annual)</div>
+            <div class="disclaimer-box">
+                ⚠️ IMPORTANT: These rates apply ONLY when bundled with active alarm monitoring services. Rates will be higher for standalone cellular service.
+            </div>
+
+            <div class="cell-group">
+                <div class="cell-brand">DMP Single-SIM</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="90.00"><label>Backup ($90)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="150.00"><label>Primary ($150)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="300.00"><label>Fire ($300)</label><input type="number" class="qty" value="1" min="1"></div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">DMP DualSIM</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="120.00"><label>Backup ($120)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="180.00"><label>Primary ($180)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="330.00"><label>Fire ($330)</label><input type="number" class="qty" value="1" min="1"></div>
+            </div>
+
+            <div class="section-header">Additional Features (Annual)</div>
+            <table class="item-table">
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="120.00"></td><td>Supervised Openings & Closings</td><td><input type="number" class="qty" value="1" min="1"></td><td>$120.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="150.00"></td><td>DMP Virtual Keypad</td><td><input type="number" class="qty" value="1" min="1"></td><td>$150.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="60.00"></td><td>DMP Advanced Reporting (Per Door)</td><td><input type="number" class="qty" value="1" min="1"></td><td>$60.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="60.00"></td><td>DMP Video Doorbell (Per Doorbell)</td><td><input type="number" class="qty" value="1" min="1"></td><td>$60.00</td><td class="col-sub">$0.00</td></tr>
+            </table>
+
+            <div class="section-header">One-Time Fees</div>
+            <table class="item-table">
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="30.00"></td><td>Cell Activation</td><td><input type="number" class="qty" value="1" min="1"></td><td>$30.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="75.00"></td><td>New Account Setup</td><td><input type="number" class="qty" value="1" min="1"></td><td>$75.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>Initial DMP VK Setup</td><td>—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="325.00"></td><td>VK Training</td><td>—</td><td>$325.00</td><td class="col-sub">$0.00</td></tr>
+            </table>
+        </div>
+
+        <!-- TAB 2: NON-DMP -->
+        <div id="nondmp" class="tab-content">
+            <div class="section-header">Alarm Monitoring Services (Annual)</div>
+            <table class="item-table">
+                <thead><tr><th>Select</th><th>Description</th><th>Qty</th><th>Annual Rate</th><th>Subtotal</th></tr></thead>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="637.50"></td><td>Burglar Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$637.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="787.50"></td><td>Combination Burg/Fire Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$787.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="877.50"></td><td>Fire Alarm Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$877.50</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb recurring" data-price="210.00"></td><td>Elevator Monitoring</td><td><input type="number" class="qty" value="1" min="1"></td><td>$210.00</td><td class="col-sub">$0.00</td></tr>
+            </table>
+
+            <div class="section-header">Cellular Communications (Annual)</div>
+            <div class="disclaimer-box">
+                ⚠️ IMPORTANT: These rates apply ONLY when bundled with active alarm monitoring services. Rates will be higher for standalone cellular service.
+            </div>
+
+            <div class="cell-group">
+                <div class="cell-brand">DMP CellCom</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="90.00"><label>Backup ($90)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="150.00"><label>Primary ($150)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="300.00"><label>Fire ($300)</label><input type="number" class="qty" value="1" min="1"></div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">DMP DualCom</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="120.00"><label>Backup ($120)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="180.00"><label>Primary ($180)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="330.00"><label>Fire ($330)</label><input type="number" class="qty" value="1" min="1"></div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">Telguard</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="165.00"><label>Weekly Test ($165)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="285.00"><label>Daily Test ($285)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="570.00"><label>Fire ($570)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;">
+    <input type="checkbox" class="cb recurring" data-price="360.00">
+    <label>Multi-Carrier ($360)</label>
+    <input type="number" class="qty" value="1" min="1"></div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">Wyless (Bosch)</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="180.00"><label>Backup ($180)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="390.00"><label>Primary ($390)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="450.00"><label>Unlimited ($450)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div style="width: 100%; font-size: 0.75em; color: var(--warning-text); padding-left: 10px;">
+                    * Note: Data overages may apply (Unlimited plan excluded).
+                </div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">Starlink</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="180.00"><label>Weekly Test ($180)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="240.00"><label>Daily Test ($240)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="360.00"><label>Fire ($360)</label><input type="number" class="qty" value="1" min="1"></div>
+            </div>
+            <div class="cell-group">
+                <div class="cell-brand">AlarmNet (Honeywell)</div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="300.00"><label>5 Min. Check-In Superv. ($300)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="750.00"><label>GSM UL 2050 Sec. Superv. ($750)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;">
+    <input type="checkbox" class="cb recurring" data-price="750.00">
+    <label>IPGSM-DP: 5 Min. Check-In GSM Only ($750)</label>
+    <input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option"><input type="checkbox" class="cb recurring" data-price="330.00"><label>NFPA 2013 6HR Superv. GSM ($330)</label><input type="number" class="qty" value="1" min="1"></div>
+                <div class="cell-option" style="margin-left: 232px;">
+    <input type="checkbox" class="cb recurring" data-price="480.00">
+    <label>NFPA 2013 1HR Superv. GSM ($480)</label>
+    <input type="number" class="qty" value="1" min="1"></div>
+            </div>
+
+            <div class="section-header">One-Time Fees</div>
+            <table class="item-table">
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="30.00"></td><td>Cell Activation</td><td><input type="number" class="qty" value="1" min="1"></td><td>$30.00</td><td class="col-sub">$0.00</td></tr>
+                <tr class="item-row"><td><input type="checkbox" class="cb onetime" data-price="75.00"></td><td>New Account Setup</td><td><input type="number" class="qty" value="1" min="1"></td><td>$75.00</td><td class="col-sub">$0.00</td></tr>
+            </table>
+        </div>
+    </form>
+
+    <div class="totals-bar">
+        <div class="total-item"><label>Annual Total Recurring</label><div id="annualTotal" class="total-val">$0.00</div></div>
+        <div class="total-item"><label>One-Time Fees</label><div id="oneTimeTotal" class="total-val" style="color: #2d3748;">$0.00</div></div>
+    </div>
+
+    <div class="no-print" style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; justify-content: space-between; align-items: flex-start;">
+        <span style="font-size: 0.85em; color: #718096; line-height: 1.5; max-width: 60%;">
+            <strong>NOTICE:</strong> This document provides a summary of estimated costs for informational purposes only. These rates are not a binding contract. Execution of a formal Alarm Monitoring Agreement is required prior to the commencement of services.
+        </span>
+        <button class="print-btn" onclick="window.print()">Generate PDF Quote</button>
+    </div>
+</div>
+
+<script>
+    function switchTab(evt, tabName) {
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+        document.getElementById('activeTitle').innerText = (tabName === 'dmp') ? 'DMP Panel' : 'Non-DMP Panel';
+        calculate();
+    }
+
+    document.getElementById('calcForm').addEventListener('input', calculate);
+
+    function calculate() {
+        let annual = 0, onetime = 0;
+        const activeTab = document.querySelector('.tab-content.active');
+        const allItems = activeTab.querySelectorAll('.item-row, .cell-option');
+
+        allItems.forEach(item => {
+            const cb = item.querySelector('.cb');
+            const qtyInput = item.querySelector('.qty');
+            const subLabel = item.querySelector('.col-sub');
+            
+            if (cb && cb.checked) {
+                const price = parseFloat(cb.dataset.price);
+                const qty = qtyInput ? parseInt(qtyInput.value) || 0 : 1;
+                const sub = price * qty;
+                if (subLabel) subLabel.innerText = '$' + sub.toLocaleString(undefined, {minimumFractionDigits: 2});
+                if (cb.classList.contains('recurring')) { annual += sub; } else { onetime += sub; }
+            } else { if (subLabel) subLabel.innerText = '$0.00'; }
+        });
+
+        document.getElementById('annualTotal').innerText = '$' + annual.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('oneTimeTotal').innerText = '$' + onetime.toLocaleString(undefined, {minimumFractionDigits: 2});
+    }
+    calculate();
+</script>
+
+</body>
+</html>
